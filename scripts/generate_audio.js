@@ -22,34 +22,53 @@ const VOICE_SETTINGS = {
 const phrases = [
   // WONDER
   { text: "Do you see something hiding all around you?", style: 'question' },
-  { text: "Look at your door. Look at your book. What shape do you notice?", style: 'question' },
+  { text: "Look at your door. Look at your book. Look at your window. What shape do you notice?", style: 'question' },
   { text: "There is a secret shape everywhere. Can you find it?", style: 'thinking' },
+  { text: "Let us discover what this mystery shape is!", style: 'statement' },
+  
+  // WONDER QUESTIONS (optional but good to have if user clicks)
+  { text: "Look at a door. How many sides does it have?", style: 'question' },
+  { text: "Think of a book. What shape is it?", style: 'question' },
+  { text: "A picture frame has a special shape. What is it?", style: 'question' },
+  { text: "Look at a phone screen. How many corners can you count?", style: 'question' },
+  { text: "Windows on a building — what shape are they?", style: 'question' },
+
   // STORY
-  { text: "Sarah and Mike were decorating their classroom.", style: 'statement' },
-  { text: "Mike picked up a picture frame.", style: 'statement' },
-  { text: "How many sides does this have?", style: 'question' },
-  { text: "Robo counted. One, two, three, four! Four sides!", style: 'statement' },
-  { text: "And how many corners? One, two, three, four! Four corners too!", style: 'question' },
-  { text: "Robo pointed at the door. The door is the same shape! Four sides, four corners!", style: 'statement' },
-  { text: "This shape is called a RECTANGLE!", style: 'celebration' },
-  { text: "Rectangles have 4 sides and 4 corners. The sides across from each other are the same length.", style: 'emphasis' },
+  { text: "Sarah and Mike were decorating their classroom for Art Day. There were picture frames, posters, and colourful charts everywhere!", style: 'statement' },
+  { text: "Mike picked up a picture frame. \"How many sides does this have?\" asked their helper Robo. Mike traced his finger along the edges: one, two, three, four!", style: 'statement' },
+  { text: "\"And how many corners?\" asked Robo. Sarah pointed at each corner of the frame. One, two, three, four! Four corners too!", style: 'question' },
+  { text: "Robo pointed at the door. \"The door is the same shape! Four sides, four corners!\" Sarah looked around — the whiteboard, the window, even her notebook were the same shape!", style: 'statement' },
+  { text: "\"Here is the secret,\" said Robo. \"The sides across from each other are always the same length. The top matches the bottom, and the left matches the right!\"", style: 'statement' },
+  { text: "\"Now you know what a rectangle is!\" cheered Robo. \"Four sides, four corners, and opposite sides are always equal. Let us practice finding and making rectangles!\"", style: 'celebration' },
+
+  // STORY HIGHLIGHTS
+  { text: "4 sides!", style: 'emphasis' },
+  { text: "4 corners!", style: 'emphasis' },
+  { text: "Opposite sides are equal!", style: 'emphasis' },
+  { text: "4 sides • 4 corners • Opposite sides equal", style: 'emphasis' },
+
   // SIMULATE
-  { text: "Connect four dots to make a shape.", style: 'instruction' },
-  { text: "Try making your opposite sides equal!", style: 'thinking' },
-  { text: "Can you find all the rectangles in this classroom?", style: 'question' },
-  { text: "Yes! That is a rectangle! Count the sides with me!", style: 'encouragement' },
-  { text: "Drag the handles to change the rectangle.", style: 'instruction' },
-  { text: "Look! The opposite sides always stay the same! That is the secret of rectangles!", style: 'thinking' },
-  { text: "Drag each shape to the correct bucket.", style: 'instruction' },
-  { text: "Great sorting! A rectangle has 4 sides and 4 corners!", style: 'encouragement' },
+  { text: "Tap four dots on the grid to make a rectangle!", style: 'instruction' },
+  { text: "Remember — a rectangle has 4 sides and 4 corners.", style: 'thinking' },
+  { text: "Try to make the opposite sides equal!", style: 'cheer' },
+  
+  { text: "Can you spot all the rectangles among these shapes?", style: 'question' },
+  { text: "Tap on each shape that is a rectangle!", style: 'instruction' },
+  { text: "Great job finding the rectangles!", style: 'cheer' },
+  
+  { text: "Let us test what you know about rectangles!", style: 'question' },
+  { text: "Fill in the missing number.", style: 'instruction' },
+  { text: "You really know your rectangles!", style: 'cheer' },
+
   // PLAY
-  { text: "Amazing! That is a rectangle!", style: 'encouragement' },
-  { text: "Hmm, let us look at that shape again!", style: 'thinking' },
+  { text: "Amazing! That is correct!", style: 'cheer' },
+  { text: "Hmm, let us look at that again!", style: 'thinking' },
   { text: "Level complete! You are doing so well!", style: 'celebration' },
+  { text: "What a streak! You are on fire!", style: 'celebration' },
+
   // REFLECT
-  { text: "Wow, you found so many rectangles today!", style: 'question' },
-  { text: "Can you tell me — what makes a rectangle special? Use your own words!", style: 'question' },
-  // COMPLETE
+  { text: "You found so many rectangles today!", style: 'question' },
+  { text: "Can you teach Robo about rectangles? Answer these questions!", style: 'question' },
   { text: "You are a Shape Hero today! Amazing work!", style: 'celebration' },
 ];
 

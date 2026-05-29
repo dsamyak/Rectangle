@@ -10,12 +10,7 @@ const elevenLabsCache = new Map();
 
 const ELEVENLABS_VOICE_ID = 'Xb7hH8MSUJpSbSDYk0k2';
 
-let audioMap = {};
-try {
-  import('./audioMap.js').then(module => {
-    audioMap = module.audioMap || {};
-  }).catch(() => {});
-} catch (e) { }
+import { audioMap } from './audioMap';
 
 const SPEECH_STYLES = {
   statement: { rate: 0.85, pitch: 1.18, volume: 0.95 },
