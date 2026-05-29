@@ -1,49 +1,114 @@
-import React from 'react';
-import { usePhase } from './hooks/usePhase';
-import PhaseBar from './components/ui/PhaseBar';
+import React, { useState, useCallback } from 'react';
+import FloatingShapes from './components/ui/FloatingShapes';
+import IntroScreen from './components/ui/IntroScreen';
 import WonderPhase from './components/phases/WonderPhase';
 import StoryPhase from './components/phases/StoryPhase';
 import SimulatePhase from './components/phases/SimulatePhase';
 import PlayPhase from './components/phases/PlayPhase';
 import ReflectPhase from './components/phases/ReflectPhase';
-import { AnimatePresence, motion } from 'framer-motion';
 
-function App() {
-  const { currentPhase, phaseProgress, advancePhase } = usePhase();
+const PHASES = ['wonder', 'story', 'simulate', 'play', 'reflect'];
+const PHASE_LABELS = { wonder: 'Wonder', story: 'Story', simulate: 'Simulate', play: 'Play', reflect: 'Reflect' };
+const PHASE_ICONS = { wonder: '✨', story: '📖', simulate: '🔬', play: '🎮', reflect: '🪞' };
 
-  const renderPhase = () => {
-    switch (currentPhase) {
-      case 'wonder': return <WonderPhase key="wonder" onComplete={advancePhase} />;
-      case 'story': return <StoryPhase key="story" onComplete={advancePhase} />;
-      case 'simulate': return <SimulatePhase key="simulate" onComplete={advancePhase} />;
-      case 'play': return <PlayPhase key="play" onComplete={advancePhase} />;
-      case 'reflect': return <ReflectPhase key="reflect" onComplete={advancePhase} />;
-      default: return null;
+export default function App() {
+  const [started, setStarted] = useState(false);
+  const [currentPhase, setCurrentPhase] = useState('wonder');
+  const [audioEnabled, setAudioEnabled] = useState(true);
+  const [playStats, setPlayStats] = useState(null);
+
+  const currentIdx = PHASES.indexOf(currentPhase);
+
+  const advancePhase = useCallback((stats) => {
+    const idx = PHASES.indexOf(currentPhase);
+    if (currentPhase === 'play' && stats) {
+      setPlayStats(stats);
     }
+    if (idx < PHASES.length - 1) {
+      setCurrentPhase(PHASES[idx + 1]);
+    }
+  }, [currentPhase]);
+
+  const goHome = () => {
+    setStarted(false);
+    setCurrentPhase('wonder');
+    setPlayStats(null);
   };
 
+  // ─── Intro Screen ───
+  if (!started) {
+    return (
+      <>
+        <FloatingShapes />
+        <div className="app-container">
+          <IntroScreen onStart={() => setStarted(true)} />
+        </div>
+      </>
+    );
+  }
+
+  // ─── Main App ───
   return (
-    <div className="app-container relative w-full h-screen overflow-hidden">
-      <header className="absolute top-0 left-0 right-0 p-4 z-50 flex justify-center">
-        <PhaseBar currentPhase={currentPhase} phaseProgress={phaseProgress} />
-      </header>
-      
-      <main className="w-full h-full pt-20 pb-24 flex justify-center items-center">
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={currentPhase}
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 1.05 }}
-            transition={{ duration: 0.5 }}
-            className="w-full h-full flex justify-center items-center"
-          >
-            {renderPhase()}
-          </motion.div>
-        </AnimatePresence>
-      </main>
-    </div>
+    <>
+      <FloatingShapes />
+
+      {/* Audio toggle */}
+      <button
+        className="audio-toggle-btn"
+        onClick={() => setAudioEnabled(a => !a)}
+        title={audioEnabled ? 'Mute' : 'Unmute'}
+      >
+        {audioEnabled ? '🔊' : '🔇'}
+      </button>
+
+      {/* Home button */}
+      <button className="home-btn" onClick={goHome}>
+        🏠 Home
+      </button>
+
+      {/* Journey bar */}
+      <div className="journey-bar">
+        {PHASES.map((phase, idx) => {
+          const isActive = phase === currentPhase;
+          const isCompleted = idx < currentIdx;
+          let statusClass = '';
+          if (isActive) statusClass = 'active';
+          else if (isCompleted) statusClass = 'completed';
+
+          return (
+            <React.Fragment key={phase}>
+              <div className={`journey-step ${statusClass}`}>
+                <div className="journey-step-dot">
+                  {isCompleted ? '✓' : PHASE_ICONS[phase]}
+                </div>
+                <span className="journey-step-label">{PHASE_LABELS[phase]}</span>
+              </div>
+              {idx < PHASES.length - 1 && (
+                <div className={`journey-connector ${isCompleted ? 'filled' : ''}`} />
+              )}
+            </React.Fragment>
+          );
+        })}
+      </div>
+
+      {/* Phase content */}
+      <div className="app-container">
+        {currentPhase === 'wonder' && (
+          <WonderPhase onComplete={() => advancePhase()} audioEnabled={audioEnabled} />
+        )}
+        {currentPhase === 'story' && (
+          <StoryPhase onComplete={() => advancePhase()} audioEnabled={audioEnabled} />
+        )}
+        {currentPhase === 'simulate' && (
+          <SimulatePhase onComplete={() => advancePhase()} audioEnabled={audioEnabled} />
+        )}
+        {currentPhase === 'play' && (
+          <PlayPhase onComplete={(stats) => advancePhase(stats)} audioEnabled={audioEnabled} />
+        )}
+        {currentPhase === 'reflect' && (
+          <ReflectPhase onComplete={() => {}} audioEnabled={audioEnabled} playStats={playStats} />
+        )}
+      </div>
+    </>
   );
 }
-
-export default App;
